@@ -30,6 +30,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  bool _indicador = false;
+  String _titulo = '';
 
   void _incrementCounter() {
     setState(() {
@@ -43,13 +45,36 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _cambiarTitulo() {
+    setState(() {
+      _indicador = !_indicador;
+      _setTitulo();
+    });
+  }
+
+  void _setTitulo() {
+    setState(() {
+      if (_indicador) {
+        _titulo = 'Hola, Flutter';
+      } else {
+        _titulo = 'Bienvenido a Flutter';
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _titulo = widget.title;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
 
-        title: Text(widget.title),
+        title: Text(_titulo),
       ),
       body: Center(
         child: Column(
@@ -67,6 +92,25 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 40),
+              child: Image.network(
+                'https://www.uceva.edu.co/wp-content/uploads/2020/07/Uceva-Vertical-png.png',
+                width: 150,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 40),
+              child: Image.asset('assets/images/Perfil.jpg', width: 150),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.only(top: 40),
+              child: ElevatedButton(
+                onPressed: _cambiarTitulo,
+                child: const Text('Cambiar título'),
+              ),
             ),
           ],
         ),
