@@ -1,16 +1,13 @@
-# talleres
-
-A new Flutter project.
-
-## Getting Started
-
 This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+#Taller #1
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+##Objetivo
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+* Construir una pantalla básica en Flutter con StatefulWidget y evidenciar el uso de setState().
+* Aplicar buenas prácticas de control de versiones usando un repositorio único con ramas por taller.
+
+
+##Pasos para ejecutar
+1. flutter pub get y flutter run.
+
