@@ -1,13 +1,25 @@
-This project is a starting point for a Flutter application.
+# Taller #1 - Flutter
 
-#Taller #1
+## Descripción breve
 
-##Objetivo
+Este proyecto consiste en una pantalla principal desarrollada en Flutter que demuestra el uso de widgets de estado, manejo de imágenes, diseño visual y control de eventos con setState(). Incluye AppBar, imágenes en un Row, Stack, botones y SnackBar.
 
-* Construir una pantalla básica en Flutter con StatefulWidget y evidenciar el uso de setState().
-* Aplicar buenas prácticas de control de versiones usando un repositorio único con ramas por taller.
+## Pasos para ejecutar
 
+1. Clona el repositorio o descarga el código fuente.
+2. Abre la carpeta del proyecto en tu IDE.
+3. Ejecuta en la terminal:
+   - `flutter pub get`
+   - `flutter run`
 
-##Pasos para ejecutar
-1. flutter pub get y flutter run.
+## Capturas y datos del estudiante
 
+**Nombre:** Juan Sebastian Cadena Varela  
+**Código:** 230221022
+
+### Capturas de pantalla
+
+Agrega aquí tus capturas de la app en ejecución:
+
+![Pantalla principal](assets/images/Home.png)
+![SnackBar](assets/images/SnackBar.png)
