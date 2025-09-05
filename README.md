@@ -1,16 +1,25 @@
-# talleres
+# Taller #1 - Flutter
 
-A new Flutter project.
+## Descripción breve
 
-## Getting Started
+Este proyecto consiste en una pantalla principal desarrollada en Flutter que demuestra el uso de widgets de estado, manejo de imágenes, diseño visual y control de eventos con setState(). Incluye AppBar, imágenes en un Row, Stack, botones y SnackBar.
 
-This project is a starting point for a Flutter application.
+## Pasos para ejecutar
 
-A few resources to get you started if this is your first Flutter project:
+1. Clona el repositorio o descarga el código fuente.
+2. Abre la carpeta del proyecto en tu IDE.
+3. Ejecuta en la terminal:
+   - `flutter pub get`
+   - `flutter run`
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Capturas y datos del estudiante
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+**Nombre:** Juan Sebastian Cadena Varela  
+**Código:** 230221022
+
+### Capturas de pantalla
+
+Agrega aquí tus capturas de la app en ejecución:
+
+![Pantalla principal](assets/images/Home.png)
+![SnackBar](assets/images/SnackBar.png)
