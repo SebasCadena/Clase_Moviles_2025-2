@@ -31,7 +31,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   bool _indicador = false;
-  String _titulo = '';
+  String _titulo = 'Hola, Flutter';
 
   void _incrementCounter() {
     setState(() {
@@ -57,9 +57,17 @@ class _MyHomePageState extends State<MyHomePage> {
       if (_indicador) {
         _titulo = 'Hola, Flutter';
       } else {
-        _titulo = 'Bienvenido a Flutter';
+        _titulo = 'Título Cambiado';
       }
     });
+  }
+
+  void mostrarSnackbar() {
+    final snackBar = SnackBar(
+      content: Text('Título Actualizado: ' + _titulo),
+      duration: const Duration(seconds: 1),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   @override
@@ -75,41 +83,89 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
 
         title: Text(_titulo),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              _cambiarTitulo();
+              mostrarSnackbar();
+            },
+            child: const Icon(Icons.refresh),
+          ),
+        ],
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             const Text(
               "Juan Sebastian Cadena Varela",
               style: TextStyle(fontSize: 30),
               textAlign: TextAlign.center,
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 20, bottom: 20),
-              child: Text('You have pushed the button this many times:'),
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 40),
-              child: Image.network(
-                'https://www.uceva.edu.co/wp-content/uploads/2020/07/Uceva-Vertical-png.png',
-                width: 150,
+            Container(
+              margin: const EdgeInsets.only(top: 20, bottom: 20),
+              decoration: BoxDecoration(
+                color: Color(
+                  Theme.of(context).colorScheme.inversePrimary.value,
+                ),
+                border: Border.all(
+                  width: 2.0,
+                  color: Color(Theme.of(context).colorScheme.primary.value),
+                ),
+              ),
+              padding: EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  Text('You have pushed the button this many times:'),
+                  Text(
+                    '$_counter',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 40),
-              child: Image.asset('assets/images/Perfil.jpg', width: 150),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Image.network(
+                  'https://www.uceva.edu.co/wp-content/uploads/2020/07/Uceva-Vertical-png.png',
+                  width: 150,
+                ),
+                Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    Image.asset('assets/images/Perfil.jpg', width: 150),
+                    Container(
+                      width: 150,
+                      color: Colors.black.withOpacity(0.5),
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: const Text(
+                        'Juan S. Cadena',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
 
-            Padding(
-              padding: const EdgeInsets.only(top: 40),
-              child: ElevatedButton(
-                onPressed: _cambiarTitulo,
-                child: const Text('Cambiar título'),
+            ElevatedButton.icon(
+              onPressed: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('¡Contactame!    +57 3114304487')),
+                );
+              },
+              icon: Icon(Icons.description, color: Colors.yellow),
+              label: Text('Información'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.deepPurple,
+                foregroundColor: Colors.white,
               ),
             ),
           ],
