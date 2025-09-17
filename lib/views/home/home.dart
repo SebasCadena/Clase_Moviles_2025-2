@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key, required this.title});
@@ -43,6 +44,11 @@ class _HomeState extends State<Home> {
     });
   }
 
+  void goToAboutme(String metodo) {
+    final tituloEncode = Uri.encodeComponent(_titulo);
+    context.push('/aboutme/$tituloEncode/$metodo');
+  }
+
   void mostrarSnackbar() {
     final snackBar = SnackBar(
       content: Text('Título Actualizado: ' + _titulo),
@@ -62,7 +68,6 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-
         title: Text(_titulo),
         actions: [
           ElevatedButton(
@@ -138,12 +143,14 @@ class _HomeState extends State<Home> {
 
             ElevatedButton.icon(
               onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
+                /*ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('¡Contactame!    +57 3114304487')),
-                );
+                );*/
+                goToAboutme('push');
+                mostrarSnackbar();
               },
               icon: Icon(Icons.description, color: Colors.yellow),
-              label: Text('Información'),
+              label: Text('Go About Me - Push'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.deepPurple,
                 foregroundColor: Colors.white,
@@ -160,12 +167,14 @@ class _HomeState extends State<Home> {
             padding: const EdgeInsets.only(bottom: 20),
             child: FloatingActionButton(
               onPressed: _reducirCounter,
+              heroTag: "decrement",
               tooltip: 'Decrement',
               child: const Icon(Icons.remove),
             ),
           ),
           FloatingActionButton(
             onPressed: _incrementCounter,
+            heroTag: "increment",
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           ),
