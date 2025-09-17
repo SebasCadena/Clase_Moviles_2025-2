@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:talleres/views/home/about/aboutme.dart';
+import 'package:talleres/views/about/aboutme.dart';
 import 'package:talleres/views/home/home.dart';
 
 final GoRouter appRouter = GoRouter(
