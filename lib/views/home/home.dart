@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:talleres/widgets/custom_drawer.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key, required this.title});
@@ -10,36 +12,52 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with TickerProviderStateMixin {
   int _counter = 0;
   bool _indicador = false;
   String _titulo = 'Hola, Flutter';
+  late AnimationController
+  _animationController; // Controller que necesita ser liberado
+  late Animation<double> _rotationAnimation;
 
   void _incrementCounter() {
     setState(() {
       _counter++;
+      if (kDebugMode) {
+        print("🟠 setState() -> Estado actualizado : $_counter");
+      }
     });
   }
 
   void _reducirCounter() {
     setState(() {
       _counter--;
+      if (kDebugMode) {
+        print("🟠 setState() -> Estado actualizado : $_counter");
+      }
     });
   }
 
   void _cambiarTitulo() {
     setState(() {
       _indicador = !_indicador;
+      _counter = 0;
       _setTitulo();
+    });
+    _animationController.forward().then((_) {
+      _animationController.reset();
     });
   }
 
   void _setTitulo() {
     setState(() {
       if (_indicador) {
-        _titulo = 'Hola, Flutter';
+        _titulo = 'Título Cambiado'; // Cambiar orden
       } else {
-        _titulo = 'Título Cambiado';
+        _titulo = 'Hola, Flutter'; // Cambiar orden
+      }
+      if (kDebugMode) {
+        print("🟠 setState() -> Estado actualizado -> Título: $_titulo");
       }
     });
   }
@@ -47,6 +65,14 @@ class _HomeState extends State<Home> {
   void goToAboutme(String metodo) {
     final tituloEncode = Uri.encodeComponent(_titulo);
     context.push('/aboutme/$tituloEncode/$metodo');
+  }
+
+  void goToLogin() {
+    context.go('/login');
+  }
+
+  void goToTabBar() {
+    context.replace('/tabbar');
   }
 
   void mostrarSnackbar() {
@@ -61,35 +87,130 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     _titulo = widget.title;
+
+    // Inicializar AnimationController para demostrar dispose()
+    _animationController = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this, // Requiere TickerProviderStateMixin
+    );
+
+    // Crear una animación de rotación
+    _rotationAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(_animationController);
+
+    if (kDebugMode) {
+      print(
+        '🟢 initState() -> Inicializando widget Home. Se ejecuta UNA VEZ al crear el widget',
+      );
+      print('Home - initState - Título: $_titulo');
+    }
+  }
+
+  @override
+  void dispose() {
+    // El dispose() se usa para liberar recursos que consumen memoria de forma activa:
+    // - Controllers (mantienen listeners internos)
+    // - Streams (mantienen conexiones abiertas)
+    // - Timers (mantienen callbacks programados)
+    // Los tipos primitivos (String, int, bool) no necesitan dispose()
+    _animationController.dispose(); // Liberamos la memoria del controlador
+    if (kDebugMode) {
+      print(
+        "🔴 dispose() -> Liberando recursos del widget Home. Se ejecuta al destruir el widget",
+      );
+    }
+    super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (kDebugMode) {
+      print("didChangeDependencies() -> Tema actual");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (kDebugMode) {
+      print("🔵 build() -> Construyendo la pantalla");
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(_titulo),
+
         actions: [
-          ElevatedButton(
-            onPressed: () {
-              _cambiarTitulo();
-              mostrarSnackbar();
+          AnimatedBuilder(
+            animation: _rotationAnimation,
+            builder: (context, child) {
+              return Transform.rotate(
+                angle:
+                    _rotationAnimation.value * 2 * 3.14159, // Rotación completa
+                child: ElevatedButton(
+                  onPressed: () {
+                    _cambiarTitulo();
+                    mostrarSnackbar();
+                  },
+                  child: const Icon(Icons.refresh),
+                ),
+              );
             },
-            child: const Icon(Icons.refresh),
           ),
         ],
       ),
+      drawer: const CustomDrawer(),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            const Text(
+            Column(
+              children: [
+                ElevatedButton.icon(
+                  onPressed: () {
+                    goToAboutme('push');
+                  },
+                  icon: Icon(Icons.description, color: Colors.yellow),
+                  label: Text('AboutMe - Push'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.deepPurple,
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    goToTabBar();
+                  },
+                  icon: Icon(Icons.description, color: Colors.yellow),
+                  label: Text('TabBar - Replace'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.deepPurple,
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    goToLogin();
+                  },
+                  icon: Icon(Icons.description, color: Colors.yellow),
+                  label: Text('Login - Go'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.deepPurple,
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+
+            Text(
               "Juan Sebastian Cadena Varela",
-              style: TextStyle(fontSize: 30),
-              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 25),
             ),
             Container(
-              margin: const EdgeInsets.only(top: 20, bottom: 20),
               decoration: BoxDecoration(
                 color: Color(
                   Theme.of(context).colorScheme.inversePrimary.value,
@@ -139,22 +260,6 @@ class _HomeState extends State<Home> {
                   ],
                 ),
               ],
-            ),
-
-            ElevatedButton.icon(
-              onPressed: () {
-                /*ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('¡Contactame!    +57 3114304487')),
-                );*/
-                goToAboutme('push');
-                mostrarSnackbar();
-              },
-              icon: Icon(Icons.description, color: Colors.yellow),
-              label: Text('Go About Me - Push'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
-                foregroundColor: Colors.white,
-              ),
             ),
           ],
         ),

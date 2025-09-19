@@ -1,6 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:talleres/views/about/aboutme.dart';
 import 'package:talleres/views/home/home.dart';
+import 'package:talleres/views/login/login.dart';
+import 'package:talleres/views/TabBar/bar.dart';
 
 final GoRouter appRouter = GoRouter(
   routes: [
@@ -22,5 +24,7 @@ final GoRouter appRouter = GoRouter(
         ),
       ],
     ),
+    GoRoute(path: '/login', builder: (context, state) => const Login()),
+    GoRoute(path: '/tabbar', builder: (context, state) => const Bar()),
   ],
 );
