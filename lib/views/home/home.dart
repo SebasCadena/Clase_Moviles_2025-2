@@ -174,7 +174,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   onPressed: () {
                     goToAboutme('push');
                   },
-                  icon: Icon(Icons.description, color: Colors.yellow),
+                  icon: Icon(Icons.description, color: Theme.of(context).colorScheme.secondary),
                   label: Text('AboutMe - Push'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,
@@ -185,7 +185,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   onPressed: () {
                     goToTabBar();
                   },
-                  icon: Icon(Icons.tab, color: Colors.yellow),
+                  icon: Icon(Icons.tab, color: Theme.of(context).colorScheme.secondary),
                   label: Text('TabBar - Replace'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,
@@ -196,7 +196,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   onPressed: () {
                     goToLogin();
                   },
-                  icon: Icon(Icons.person, color: Colors.yellow),
+                  icon: Icon(Icons.person, color: Theme.of(context).colorScheme.secondary),
                   label: Text('Login - Go'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,
