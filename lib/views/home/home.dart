@@ -77,7 +77,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   void mostrarSnackbar() {
     final snackBar = SnackBar(
-      content: Text('Título Actualizado: ' + _titulo),
+      content: Text('Título Actualizado: $_titulo'),
       duration: const Duration(seconds: 1),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -185,7 +185,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   onPressed: () {
                     goToTabBar();
                   },
-                  icon: Icon(Icons.description, color: Colors.yellow),
+                  icon: Icon(Icons.tab, color: Colors.yellow),
                   label: Text('TabBar - Replace'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,
@@ -196,7 +196,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   onPressed: () {
                     goToLogin();
                   },
-                  icon: Icon(Icons.description, color: Colors.yellow),
+                  icon: Icon(Icons.person, color: Colors.yellow),
                   label: Text('Login - Go'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,
