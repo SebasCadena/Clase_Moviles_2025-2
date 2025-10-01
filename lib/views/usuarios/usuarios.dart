@@ -14,6 +14,9 @@ class Usuarios extends StatefulWidget {
 List<String> _nombres = []; // declarar una lista.
 
 class _UsuariosState extends State<Usuarios> {
+  bool _isLoading = false;
+  String? _error;
+
   Future<List<String>> getUsuarios() async {
     print('🔵 ANTES: Iniciando consulta de usuarios...');
 
@@ -21,7 +24,10 @@ class _UsuariosState extends State<Usuarios> {
 
     print('🟡 DURANTE: Procesando datos de usuarios...');
 
-    // Simular error ocasionalmente (20% de probabilidad)
+    // if (true) Ejecuta siempre el error
+    if (DateTime.now().millisecond % 5 == 0) {
+      throw Exception('Error de conexión simulado');
+    }
 
     return [
       'Juan Sebastian Cadena Varela',
@@ -31,15 +37,38 @@ class _UsuariosState extends State<Usuarios> {
   }
 
   Future<void> obtenerDatos() async {
-    final datos = await getUsuarios();
-
-    //!mounted es una propiedad de State que indica si el widget está montado en el árbol de widgets
-    //mounted es true si el widget está montado en el árbol de widgets
-    //mounted es false si el widget no está montado en el árbol de widgets
-    if (!mounted) return;
     setState(() {
-      _nombres = datos;
+      _isLoading = true;
+      _error = null;
     });
+
+    try {
+      // ✅ AGREGAR try/catch
+      print('🟢 INICIO: Consultando usuarios...');
+
+      final datos = await getUsuarios();
+
+      if (!mounted) return;
+
+      setState(() {
+        _nombres = datos;
+        _isLoading = false;
+      });
+
+      print(
+        '🟢 DESPUÉS: Datos cargados exitosamente (${datos.length} usuarios)',
+      );
+    } catch (e) {
+      // ✅ MANEJAR errores
+      if (!mounted) return;
+
+      setState(() {
+        _error = e.toString();
+        _isLoading = false;
+      });
+
+      print('🔴 ERROR: $e');
+    }
   }
 
   @override
@@ -47,6 +76,7 @@ class _UsuariosState extends State<Usuarios> {
   // *llama a la funcion obtenerDatos() para cargar los datos al iniciar
   void initState() {
     super.initState();
+    print('🟣 initState: Inicializando pantalla de usuarios');
     obtenerDatos(); // carga al iniciar
   }
 
@@ -78,29 +108,54 @@ class _UsuariosState extends State<Usuarios> {
               style: Theme.of(context).textTheme.headlineMedium,
             ),
 
-            const SizedBox(height: 50),
-
             Expanded(child: _build()),
           ],
         ),
       ),
     );
   }
-}
 
-Widget _build() {
-  return _nombres.isEmpty
-      ? Column(
+  Widget _build() {
+    if (_isLoading) {
+      return const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Cargando usuarios...'),
-            const SizedBox(height: 20),
-            const Center(child: CircularProgressIndicator()),
+            CircularProgressIndicator(),
+            SizedBox(height: 16),
+            Text('Cargando usuarios...'),
           ],
-        )
-      : ListView.builder(
-          itemCount: _nombres.length,
-          itemBuilder: (context, index) {
-            return ListTile(title: Text('${index + 1}. ${_nombres[index]}'));
-          },
+        ),
+      );
+    }
+
+    if (_error != null) {
+      // ✅ ESTADO DE ERROR
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.error, color: Colors.red, size: 64),
+            SizedBox(height: 16),
+            Text('Error al cargar usuarios'),
+            SizedBox(height: 8),
+            Text(_error!, style: TextStyle(color: Colors.red)),
+            SizedBox(height: 16),
+            ElevatedButton(onPressed: obtenerDatos, child: Text('Reintentar')),
+          ],
+        ),
+      );
+    }
+
+    // ESTADO DE ÉXITO
+    return ListView.builder(
+      itemCount: _nombres.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          leading: CircleAvatar(child: Text('${index + 1}')),
+          title: Text(_nombres[index]),
         );
+      },
+    );
+  }
 }
