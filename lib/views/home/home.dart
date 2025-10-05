@@ -179,9 +179,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                     goToUsuarios();
                   },
                   icon: Icon(Icons.supervised_user_circle, color: Colors.amber),
-                  label: Text('Usuarios - Push'),
+                  label: Text('Usuarios - Push - Taller Segundo Plano'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple,
+                    backgroundColor: Colors.purple,
                     foregroundColor: Colors.white,
                   ),
                 ),

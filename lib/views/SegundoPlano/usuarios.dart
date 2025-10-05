@@ -33,6 +33,7 @@ class _UsuariosState extends State<Usuarios> {
       'Juan Sebastian Cadena Varela',
       'Maria Jose Ramirez Cardona',
       'Giseth Tatiana Quintero Sanchez',
+      'Andres Felipe Lozano Lozano',
     ];
   }
 
@@ -81,6 +82,13 @@ class _UsuariosState extends State<Usuarios> {
   }
 
   @override
+  void dispose() {
+    _nombres.clear(); // limpiar la lista al salir
+    print('🟣 dispose: Limpiando recursos de usuarios');
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -101,14 +109,22 @@ class _UsuariosState extends State<Usuarios> {
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
               'Lista de Usuarios',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
 
-            Expanded(child: _build()),
+            _build(),
+
+            ElevatedButton.icon(
+              icon: const Icon(Icons.timer),
+              label: const Text('Cronometro'),
+              onPressed: () {
+                context.push('/cronometro');
+              },
+            ),
           ],
         ),
       ),
@@ -117,45 +133,64 @@ class _UsuariosState extends State<Usuarios> {
 
   Widget _build() {
     if (_isLoading) {
-      return const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 16),
-            Text('Cargando usuarios...'),
-          ],
+      return SizedBox(
+        height: 300,
+        child: const Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 16),
+              Text('Cargando usuarios...'),
+            ],
+          ),
         ),
       );
     }
 
     if (_error != null) {
       // ✅ ESTADO DE ERROR
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.error, color: Colors.red, size: 64),
-            SizedBox(height: 16),
-            Text('Error al cargar usuarios'),
-            SizedBox(height: 8),
-            Text(_error!, style: TextStyle(color: Colors.red)),
-            SizedBox(height: 16),
-            ElevatedButton(onPressed: obtenerDatos, child: Text('Reintentar')),
-          ],
+      return SizedBox(
+        height: 300,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.error, color: Colors.red, size: 64),
+              SizedBox(height: 16),
+              Text('Error al cargar usuarios'),
+              SizedBox(height: 8),
+              Text(_error!, style: TextStyle(color: Colors.red)),
+              SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: obtenerDatos,
+                child: Text('Reintentar'),
+              ),
+            ],
+          ),
         ),
       );
     }
 
-    // ESTADO DE ÉXITO
-    return ListView.builder(
-      itemCount: _nombres.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          leading: CircleAvatar(child: Text('${index + 1}')),
-          title: Text(_nombres[index]),
-        );
-      },
+    // ESTADO DE ÉXITO - Contenedor con altura fija para spaceEvenly
+    return SizedBox(
+      height: 300, // Altura fija para que spaceEvenly funcione
+      child: ListView.builder(
+        itemCount: _nombres.length,
+        itemBuilder: (context, index) {
+          return Container(
+            color: index % 2 == 0
+                ? Color(
+                    Theme.of(context).colorScheme.inversePrimary.value,
+                  ).withOpacity(0.1)
+                : Colors.white,
+            child: ListTile(
+              leading: CircleAvatar(child: Text('${index + 1}')),
+              title: Text(_nombres[index]),
+            ),
+          );
+        },
+      ),
     );
   }
 }

@@ -1,9 +1,10 @@
 import 'package:go_router/go_router.dart';
+import 'package:talleres/views/SegundoPlano/cronometro.dart';
 import 'package:talleres/views/about/aboutme.dart';
 import 'package:talleres/views/home/home.dart';
 import 'package:talleres/views/login/login.dart';
 import 'package:talleres/views/TabBar/bar.dart';
-import 'package:talleres/views/usuarios/usuarios.dart';
+import 'package:talleres/views/SegundoPlano/usuarios.dart';
 
 final GoRouter appRouter = GoRouter(
   routes: [
@@ -27,6 +28,10 @@ final GoRouter appRouter = GoRouter(
       path: '/usuarios',
       name: 'usuarios',
       builder: (context, state) => const Usuarios(),
+    ),
+    GoRoute(
+      path: '/cronometro',
+      builder: (context, state) => const Cronometro(),
     ),
   ],
 );
