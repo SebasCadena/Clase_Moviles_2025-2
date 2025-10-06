@@ -115,7 +115,7 @@ class _TareaPesadaState extends State<TareaPesada> {
         suma += i;
 
         // Mostrar progreso cada 100,000 números
-        if (i % 100000 == 0) {
+        if (i % 1000000 == 0) {
           if (kDebugMode) {
             print("Calculando suma: $i / $limite");
           }
