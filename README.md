@@ -2,23 +2,22 @@
 
 ## 🎯 Descripción del Proyecto
 
-Este proyecto Flutter demuestra la implementación de navegación con `go_router`, paso de parámetros, uso de widgets especializados y manejo del ciclo de vida de los widgets.
+Este proyecto Flutter demuestra la implementación de navegación con `go_router`, paso de parámetros, uso de widgets especializados, manejo del ciclo de vida de los widgets y demás elementos vistos en la clase de programación móvil.
 
-## 🏗️ Arquitectura y Navegación
+## Arquitectura y Navegación
 
 ### Rutas Disponibles
 
-| Ruta | Descripción | Parámetros |
-|------|-------------|------------|
-| `/` | Pantalla principal (Home) | Ninguno |
-| `/aboutme/:parametro/:metodo` | Pantalla "Acerca de" | `parametro`: título a mostrar<br>`metodo`: método de navegación usado |
-| `/login` | Pantalla de autenticación | Ninguno |
-| `/tabbar` | Pantalla con pestañas | Ninguno |
+| Ruta | Descripción | Parámetros | Tecnología |
+|------|-------------|------------|------------|
+| `/` | Pantalla principal (Home) | Ninguno | Navegación hub |
+| `/aboutme/:parametro/:metodo` | Pantalla "Acerca de" | `parametro`: título<br>`metodo`: navegación | GridView |
+| `/login` | Pantalla de autenticación | Ninguno | FlutterLogin |
+| `/tabbar` | Pantalla con pestañas | Ninguno | TabBar |
+| `/usuarios` | Lista de usuarios | Ninguno | Future/async |
+| `/cronometro` | Cronómetro funcional | Ninguno | Timer |
+| `/tarea_pesada` | Tareas en segundo plano | Ninguno | Isolate |
 
-### Paso de Parámetros
-
-- **Desde Home hacia AboutMe:** Se envía el título actual y el método de navegación utilizado
-- **Captura en AboutMe:** Los parámetros se muestran en el AppBar como `parametro - metodo`
 
 ### Diferencias entre Métodos de Navegación
 
@@ -28,16 +27,6 @@ Este proyecto Flutter demuestra la implementación de navegación con `go_router
 | `context.go()` | Reemplaza completamente la ruta | ❌ NO | ✅ SÍ | Login |
 | `context.replace()` | Reemplaza en el stack actual | ✅ SÍ | ❌ NO | TabBar |
 
-## 🧩 Widgets Implementados
-
-### 1. GridView (AboutMe)
-**Razón de elección:** Perfecto para mostrar menús de opciones en formato de cuadrícula, permitiendo una navegación visual e intuitiva.
-
-### 2. TabBar (Bar)
-**Razón de elección:** Ideal para organizar contenido relacionado en secciones separadas (Car, Transit, Bike), mejorando la experiencia de usuario.
-
-### 3. FlutterLogin (Login)
-**Razón de elección:** Widget especializado que proporciona una interfaz de autenticación profesional completa con formularios, validación, animaciones y recuperación de contraseña.
 
 ## 🔄 Ciclo de Vida de Widgets
 
@@ -51,14 +40,75 @@ Este proyecto Flutter demuestra la implementación de navegación con `go_router
 
 **Nota:** `dispose()` solo se ejecuta al navegar con `context.go()` porque destruye completamente el widget.
 
-## 🚀 Instalación y Uso
+## ⏱️ Programación Asíncrona - ¿Cuándo usar qué?
 
-### Dependencias Principales
-```yaml
-dependencies:
-  go_router: ^13.2.4
-  flutter_login: ^4.2.1
+### 🔄 Future y async/await
+**¿Cuándo usarlo?**
+- Cuando necesitas hacer una tarea que toma tiempo (como cargar datos de internet)
+- Para operaciones que no bloqueen la pantalla mientras esperan
+
+
+
+**¿Por qué es útil?** Permite que la app siga respondiendo mientras espera. Es como pedir comida en un restaurante: no te quedas parado esperando, puedes hacer otras cosas.
+
+### ⏲️ Timer
+**¿Cuándo usarlo?**
+- Para hacer algo cada cierto tiempo (como un cronómetro)
+- Para tareas repetitivas que necesitan ejecutarse periódicamente
+
+**¿Por qué es útil?** Es perfecto para cosas que necesitan actualizarse constantemente, como relojes o contadores.
+
+### 🏭 Isolate
+**¿Cuándo usarlo?**
+- Para tareas MUY pesadas que podrían "congelar" la pantalla
+- Cuando necesitas calcular algo complejo sin afectar la interfaz
+
+**¿Por qué es útil?** Es como tener un ayudante que hace el trabajo pesado mientras tú sigues atendiendo a los clientes.
+
+## 📱 Pantallas y Flujos del Proyecto
+
+### Estructura de Pantallas
 ```
+📱 App Principal
+├── 🏠 Home (Pantalla principal)
+│   ├── → AboutMe (con parámetros)
+│   ├── → Login 
+│   ├── → TabBar
+│   ├── → Usuarios (Future/async)
+│   ├── → Cronómetro (Timer)
+│   └── → Tarea Pesada (Isolate)
+│
+├── 👤 AboutMe
+│   └── GridView con opciones de navegación
+│
+├── 🔐 Login  
+│   └── FlutterLogin widget
+│
+├── 📋 TabBar
+│   ├── Car Tab
+│   ├── Transit Tab  
+│   └── Bike Tab
+│
+├── 👥 Usuarios
+│   └── Lista con carga asíncrona (Future)
+│
+├── ⏱️ Cronómetro  
+│   └── Timer cada 1 segundo
+│
+└── 🏭 Tarea Pesada
+    ├── Tarea básica (ejemplo del profe)
+    └── Suma pesada (500M números)
+```
+
+## 🤔 ¿Por qué usar cada uno?
+
+| Herramienta | Lo uso cuando... | Ejemplo en la vida real |
+|-------------|------------------|------------------------|
+| **Future/async** | Necesito esperar algo sin congelar la app | Esperar que llegue un mensaje de WhatsApp |
+| **Timer** | Quiero que algo pase cada X tiempo | La alarma del celular cada mañana |
+| **Isolate** | Tengo que hacer algo súper pesado | Pedirle a un amigo que haga la tarea difícil mientras yo hago otra cosa |
+
+## 🚀 Instalación y Uso
 
 ### Instalación
 ```bash
@@ -72,11 +122,20 @@ flutter run
 
 ## 📊 Características Implementadas
 
+### Navegación y Widgets
 - ✅ Navegación con GoRouter y paso de parámetros
 - ✅ Diferenciación entre push, go y replace
 - ✅ GridView, TabBar y FlutterLogin
 - ✅ Ciclo de vida completo con prints informativos
 - ✅ Manejo de recursos con dispose()
+
+### Programación Asíncrona
+- ✅ **Future/async/await** - Carga de usuarios con simulación de delay
+- ✅ **Timer.periodic** - Cronómetro que cuenta cada segundo
+- ✅ **Isolate** - Tareas pesadas sin congelar la interfaz
+  - Tarea básica (ejemplo del profesor)
+  - Suma pesada (500 millones de números)
+- ✅ **setState()** - Actualización reactiva de la UI
 
 ## 👨‍💻 Datos del Estudiante
 

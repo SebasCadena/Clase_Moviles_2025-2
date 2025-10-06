@@ -1,8 +1,11 @@
 import 'package:go_router/go_router.dart';
+import 'package:talleres/views/SegundoPlano/cronometro.dart';
+import 'package:talleres/views/SegundoPlano/tarea_pesada.dart';
 import 'package:talleres/views/about/aboutme.dart';
 import 'package:talleres/views/home/home.dart';
 import 'package:talleres/views/login/login.dart';
 import 'package:talleres/views/TabBar/bar.dart';
+import 'package:talleres/views/SegundoPlano/usuarios.dart';
 
 final GoRouter appRouter = GoRouter(
   routes: [
@@ -11,12 +14,8 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) => const Home(title: 'Hola, Flutter'),
       routes: [
         GoRoute(
-          path:
-              'aboutme/:parametro/:metodo', //la ruta recibe dos parametros los " : " indican que son parametros
+          path: 'aboutme/:parametro/:metodo',
           builder: (context, state) {
-            //*se capturan los parametros recibidos
-            // declarando las variables parametro y metodo
-            // es final porque no se van a modificar
             final parametro = state.pathParameters['parametro']!;
             final metodo = state.pathParameters['metodo']!;
             return Aboutme(parametro: parametro, metodoNavegacion: metodo);
@@ -26,5 +25,18 @@ final GoRouter appRouter = GoRouter(
     ),
     GoRoute(path: '/login', builder: (context, state) => const Login()),
     GoRoute(path: '/tabbar', builder: (context, state) => const Bar()),
+    GoRoute(
+      path: '/usuarios',
+      name: 'usuarios',
+      builder: (context, state) => const Usuarios(),
+    ),
+    GoRoute(
+      path: '/cronometro',
+      builder: (context, state) => const Cronometro(),
+    ),
+    GoRoute(
+      path: '/tarea_pesada',
+      builder: (context, state) => const TareaPesada(),
+    ),
   ],
 );
