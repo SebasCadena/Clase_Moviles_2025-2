@@ -63,7 +63,7 @@ class _CronometroState extends State<Cronometro> {
   @override
   void dispose() {
     print('🗑️ dispose() - Cancelando timer antes de destruir el widget');
-    _timer?.cancel(); // ✅ Limpieza de recursos
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -79,7 +79,6 @@ class _CronometroState extends State<Cronometro> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // ✅ Marcador de tiempo grande
             Container(
               padding: const EdgeInsets.all(30),
               decoration: BoxDecoration(
@@ -100,7 +99,6 @@ class _CronometroState extends State<Cronometro> {
 
             const SizedBox(height: 40),
 
-            // ✅ Estado actual
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
@@ -119,7 +117,6 @@ class _CronometroState extends State<Cronometro> {
 
             const SizedBox(height: 40),
 
-            // ✅ Botones de control
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

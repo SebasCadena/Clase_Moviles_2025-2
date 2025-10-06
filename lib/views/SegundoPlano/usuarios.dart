@@ -1,7 +1,4 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 class Usuarios extends StatefulWidget {
@@ -118,12 +115,35 @@ class _UsuariosState extends State<Usuarios> {
 
             _build(),
 
-            ElevatedButton.icon(
-              icon: const Icon(Icons.timer),
-              label: const Text('Cronometro'),
-              onPressed: () {
-                context.push('/cronometro');
-              },
+            Column(
+              children: [
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.timer),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(
+                      context,
+                    ).colorScheme.inversePrimary,
+                    foregroundColor: Colors.black,
+                  ),
+                  label: const Text('Cronometro'),
+                  onPressed: () {
+                    context.push('/cronometro');
+                  },
+                ),
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.add_task_outlined),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(
+                      context,
+                    ).colorScheme.inversePrimary,
+                    foregroundColor: Colors.black,
+                  ),
+                  label: const Text('Tarea Pesada'),
+                  onPressed: () {
+                    context.push('/tarea_pesada');
+                  },
+                ),
+              ],
             ),
           ],
         ),
@@ -172,7 +192,6 @@ class _UsuariosState extends State<Usuarios> {
       );
     }
 
-    // ESTADO DE ÉXITO - Contenedor con altura fija para spaceEvenly
     return SizedBox(
       height: 300, // Altura fija para que spaceEvenly funcione
       child: ListView.builder(
