@@ -75,6 +75,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     context.replace('/tabbar');
   }
 
+  void goToUsuarios() {
+    context.push('/usuarios');
+  }
+
   void mostrarSnackbar() {
     final snackBar = SnackBar(
       content: Text('Título Actualizado: $_titulo'),
@@ -172,12 +176,20 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               children: [
                 ElevatedButton.icon(
                   onPressed: () {
+                    goToUsuarios();
+                  },
+                  icon: Icon(Icons.supervised_user_circle, color: Colors.amber),
+                  label: Text('Usuarios - Push - Taller Segundo Plano'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.purple,
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+                ElevatedButton.icon(
+                  onPressed: () {
                     goToAboutme('push');
                   },
-                  icon: Icon(
-                    Icons.description,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
+                  icon: Icon(Icons.description, color: Colors.amber),
                   label: Text('AboutMe - Push'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,
@@ -188,10 +200,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   onPressed: () {
                     goToTabBar();
                   },
-                  icon: Icon(
-                    Icons.tab,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
+                  icon: Icon(Icons.tab, color: Colors.amber),
                   label: Text('TabBar - Replace'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,
@@ -202,10 +211,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   onPressed: () {
                     goToLogin();
                   },
-                  icon: Icon(
-                    Icons.person,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
+                  icon: Icon(Icons.person, color: Colors.amber),
                   label: Text('Login - Go'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepPurple,
