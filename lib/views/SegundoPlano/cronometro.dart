@@ -124,7 +124,9 @@ class _CronometroState extends State<Cronometro> {
                 if (!_isRunning)
                   ElevatedButton.icon(
                     onPressed: _isPaused ? _resumeTimer : _startTimer,
-                    icon: Icon(_isPaused ? Icons.play_arrow : Icons.play_arrow),
+                    icon: Icon(
+                      _isPaused ? Icons.play_circle_fill : Icons.play_arrow,
+                    ),
                     label: Text(_isPaused ? 'Reanudar' : 'Iniciar'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green,

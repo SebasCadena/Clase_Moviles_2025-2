@@ -64,7 +64,7 @@ class _TareaPesadaState extends State<TareaPesada> {
     final sendPort = await receivePort.first as SendPort;
     final response = ReceivePort();
 
-    sendPort.send([500000000, response.sendPort]); // Sumar hasta 50 millones
+    sendPort.send([500000000, response.sendPort]); // Sumar hasta 500 millones
 
     final result = await response.first as String;
 

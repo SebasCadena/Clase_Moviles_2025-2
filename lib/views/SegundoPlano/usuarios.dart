@@ -8,9 +8,8 @@ class Usuarios extends StatefulWidget {
   State<Usuarios> createState() => _UsuariosState();
 }
 
-List<String> _nombres = []; // declarar una lista.
-
 class _UsuariosState extends State<Usuarios> {
+  List<String> _nombres = []; // declarar una lista.
   bool _isLoading = false;
   String? _error;
 
@@ -155,7 +154,7 @@ class _UsuariosState extends State<Usuarios> {
     if (_isLoading) {
       return SizedBox(
         height: 300,
-        child: const Center(
+        child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
