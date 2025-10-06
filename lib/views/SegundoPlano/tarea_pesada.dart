@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:isolate';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../../widgets/base_view.dart';
 
 class TareaPesada extends StatefulWidget {
   const TareaPesada({super.key});

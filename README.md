@@ -8,12 +8,15 @@ Este proyecto Flutter demuestra la implementación de navegación con `go_router
 
 ### Rutas Disponibles
 
-| Ruta | Descripción | Parámetros |
-|------|-------------|------------|
-| `/` | Pantalla principal (Home) | Ninguno |
-| `/aboutme/:parametro/:metodo` | Pantalla "Acerca de" | `parametro`: título a mostrar<br>`metodo`: método de navegación usado |
-| `/login` | Pantalla de autenticación | Ninguno |
-| `/tabbar` | Pantalla con pestañas | Ninguno |
+| Ruta | Descripción | Parámetros | Tecnología |
+|------|-------------|------------|------------|
+| `/` | Pantalla principal (Home) | Ninguno | Navegación hub |
+| `/aboutme/:parametro/:metodo` | Pantalla "Acerca de" | `parametro`: título<br>`metodo`: navegación | GridView |
+| `/login` | Pantalla de autenticación | Ninguno | FlutterLogin |
+| `/tabbar` | Pantalla con pestañas | Ninguno | TabBar |
+| `/usuarios` | Lista de usuarios | Ninguno | Future/async |
+| `/cronometro` | Cronómetro funcional | Ninguno | Timer |
+| `/tarea_pesada` | Tareas en segundo plano | Ninguno | Isolate |
 
 ### Paso de Parámetros
 
@@ -51,6 +54,142 @@ Este proyecto Flutter demuestra la implementación de navegación con `go_router
 
 **Nota:** `dispose()` solo se ejecuta al navegar con `context.go()` porque destruye completamente el widget.
 
+## ⏱️ Programación Asíncrona - ¿Cuándo usar qué?
+
+### 🔄 Future y async/await
+**¿Cuándo usarlo?**
+- Cuando necesitas hacer una tarea que toma tiempo (como cargar datos de internet)
+- Para operaciones que no bloqueen la pantalla mientras esperan
+
+**En mi proyecto:**
+```dart
+Future<List<Map<String, dynamic>>> getUsuarios() async {
+  await Future.delayed(const Duration(seconds: 2)); // Simula carga de datos
+  return usuarios; // Devuelve la lista cuando está lista
+}
+```
+
+**¿Por qué es útil?** Permite que la app siga respondiendo mientras espera. Es como pedir comida en un restaurante: no te quedas parado esperando, puedes hacer otras cosas.
+
+### ⏲️ Timer
+**¿Cuándo usarlo?**
+- Para hacer algo cada cierto tiempo (como un cronómetro)
+- Para tareas repetitivas que necesitan ejecutarse periódicamente
+
+**En mi proyecto:**
+```dart
+Timer.periodic(const Duration(seconds: 1), (timer) {
+  // Se ejecuta cada segundo para actualizar el cronómetro
+  setState(() {
+    segundos++;
+  });
+});
+```
+
+**¿Por qué es útil?** Es perfecto para cosas que necesitan actualizarse constantemente, como relojes o contadores.
+
+### 🏭 Isolate
+**¿Cuándo usarlo?**
+- Para tareas MUY pesadas que podrían "congelar" la pantalla
+- Cuando necesitas calcular algo complejo sin afectar la interfaz
+
+**En mi proyecto:**
+```dart
+// Suma de millones de números sin congelar la app
+static void _calculoSumaPesada(SendPort sendPort) async {
+  int suma = 0;
+  for (int i = 1; i <= 500000000; i++) {
+    suma += i; // Esto tomaría mucho tiempo en el hilo principal
+  }
+}
+```
+
+**¿Por qué es útil?** Es como tener un ayudante que hace el trabajo pesado mientras tú sigues atendiendo a los clientes.
+
+## 📱 Pantallas y Flujos del Proyecto
+
+### Estructura de Pantallas
+```
+📱 App Principal
+├── 🏠 Home (Pantalla principal)
+│   ├── → AboutMe (con parámetros)
+│   ├── → Login 
+│   ├── → TabBar
+│   ├── → Usuarios (Future/async)
+│   ├── → Cronómetro (Timer)
+│   └── → Tarea Pesada (Isolate)
+│
+├── 👤 AboutMe
+│   └── GridView con opciones de navegación
+│
+├── 🔐 Login  
+│   └── FlutterLogin widget
+│
+├── 📋 TabBar
+│   ├── Car Tab
+│   ├── Transit Tab  
+│   └── Bike Tab
+│
+├── 👥 Usuarios
+│   └── Lista con carga asíncrona (Future)
+│
+├── ⏱️ Cronómetro  
+│   └── Timer cada 1 segundo
+│
+└── 🏭 Tarea Pesada
+    ├── Tarea básica (ejemplo del profe)
+    └── Suma pesada (500M números)
+```
+
+### Flujo de Cronómetro
+```
+Usuario presiona "Iniciar"
+         ↓
+Timer.periodic inicia (1 segundo)
+         ↓
+Cada segundo: setState() actualiza pantalla
+         ↓
+Usuario ve números cambiando en tiempo real
+         ↓
+Usuario presiona "Parar" → Timer se cancela
+```
+
+### Flujo de Tarea Pesada
+```
+Usuario presiona "Ejecutar suma pesada"
+         ↓
+Se crea un Isolate (hilo separado)
+         ↓
+Isolate calcula suma de 500M números
+         ↓
+App sigue funcionando normal (no se congela)
+         ↓
+Isolate termina y envía resultado
+         ↓
+Pantalla se actualiza con el resultado
+```
+
+### Flujo de Usuarios (Async)
+```
+Usuario entra a pantalla Usuarios
+         ↓
+Pantalla muestra "Cargando..."
+         ↓
+Future.delayed simula carga de 2 segundos
+         ↓
+getUsuarios() devuelve lista completa
+         ↓
+setState() actualiza y muestra usuarios
+```
+
+## 🤔 ¿Por qué usar cada uno?
+
+| Herramienta | Lo uso cuando... | Ejemplo en la vida real |
+|-------------|------------------|------------------------|
+| **Future/async** | Necesito esperar algo sin congelar la app | Esperar que llegue un mensaje de WhatsApp |
+| **Timer** | Quiero que algo pase cada X tiempo | La alarma del celular cada mañana |
+| **Isolate** | Tengo que hacer algo súper pesado | Pedirle a un amigo que haga la tarea difícil mientras yo hago otra cosa |
+
 ## 🚀 Instalación y Uso
 
 ### Dependencias Principales
@@ -72,11 +211,20 @@ flutter run
 
 ## 📊 Características Implementadas
 
+### Navegación y Widgets
 - ✅ Navegación con GoRouter y paso de parámetros
 - ✅ Diferenciación entre push, go y replace
 - ✅ GridView, TabBar y FlutterLogin
 - ✅ Ciclo de vida completo con prints informativos
 - ✅ Manejo de recursos con dispose()
+
+### Programación Asíncrona
+- ✅ **Future/async/await** - Carga de usuarios con simulación de delay
+- ✅ **Timer.periodic** - Cronómetro que cuenta cada segundo
+- ✅ **Isolate** - Tareas pesadas sin congelar la interfaz
+  - Tarea básica (ejemplo del profesor)
+  - Suma pesada (500 millones de números)
+- ✅ **setState()** - Actualización reactiva de la UI
 
 ## 👨‍💻 Datos del Estudiante
 
