@@ -79,6 +79,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     context.push('/usuarios');
   }
 
+  void goToJokes() {
+    context.push('/jokes');
+  }
+
   void mostrarSnackbar() {
     final snackBar = SnackBar(
       content: Text('Título Actualizado: $_titulo'),
@@ -176,12 +180,23 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               children: [
                 ElevatedButton.icon(
                   onPressed: () {
+                    goToJokes();
+                  },
+                  icon: Icon(Icons.accessible, color: Colors.amber),
+                  label: Text('Jokes - Taller HTTP'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.purple,
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+                ElevatedButton.icon(
+                  onPressed: () {
                     goToUsuarios();
                   },
                   icon: Icon(Icons.supervised_user_circle, color: Colors.amber),
-                  label: Text('Usuarios - Push - Taller Segundo Plano'),
+                  label: Text('Usuarios - Taller Segundo Plano'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.purple,
+                    backgroundColor: Colors.deepPurple,
                     foregroundColor: Colors.white,
                   ),
                 ),
