@@ -4,7 +4,6 @@ import 'package:talleres/views/SegundoPlano/tarea_pesada.dart';
 import 'package:talleres/views/about/aboutme.dart';
 import 'package:talleres/views/home/home.dart';
 import 'package:talleres/views/http_API/api.dart';
-import 'package:talleres/views/http_API/detalle.dart';
 import 'package:talleres/views/login/login.dart';
 import 'package:talleres/views/TabBar/bar.dart';
 import 'package:talleres/views/SegundoPlano/usuarios.dart';
@@ -41,14 +40,5 @@ final GoRouter appRouter = GoRouter(
       builder: (context, state) => const TareaPesada(),
     ),
     GoRoute(path: '/jokes', builder: (context, state) => const Jokes()),
-    GoRoute(
-      path: '/joke/:id', // se recibe el nombre del pokemon como parametro
-      name: 'joke_detail',
-      builder: (context, state) {
-        final id =
-            state.pathParameters['id']!; // se captura el nombre del pokemon.
-        return Detalle(id: id);
-      },
-    ),
   ],
 );

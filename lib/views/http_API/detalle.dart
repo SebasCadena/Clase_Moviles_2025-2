@@ -1,29 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:talleres/models/joke_model.dart';
-import 'package:talleres/services/joke_service.dart';
 
-class Detalle extends StatefulWidget {
-  const Detalle({super.key, required this.id});
+class Detalle extends StatelessWidget {
+  const Detalle({
+    super.key,
+    required this.id,
+    required this.iconUrl,
+    required this.value,
+  });
   final String id;
-
-  @override
-  State<Detalle> createState() => _DetalleState();
-}
-
-class _DetalleState extends State<Detalle> {
-  final JokeService _jokeService = JokeService();
-  // Se declara una variable de tipo Future que contendrá el detalle del Pokémon
-  late Future<JOKE> _futureJokes;
-
-  @override
-  void initState() {
-    super.initState();
-    // Se llama al método getPokemonByName de la clase PokemonService
-    //_futureJokes = _jokeService.getJokes();//widget.name
-  }
+  final String iconUrl;
+  final String value;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Text("data"));
+    return Scaffold(
+      appBar: AppBar(title: const Text('Detalle del chiste')),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            if (iconUrl.isNotEmpty)
+              Center(
+                child: Image.network(iconUrl, height: 240, fit: BoxFit.contain),
+              ),
+            const SizedBox(height: 20),
+            Text(
+              value,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 12),
+            Text('ID: $id', style: const TextStyle(color: Colors.black54)),
+          ],
+        ),
+      ),
+    );
   }
 }
