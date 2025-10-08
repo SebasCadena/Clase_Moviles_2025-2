@@ -100,6 +100,13 @@ Este proyecto Flutter demuestra la implementación de navegación con `go_router
 | `context.go()` | Reemplaza completamente la ruta | ❌ NO | ✅ SÍ | Login |
 | `context.replace()` | Reemplaza en el stack actual | ✅ SÍ | ❌ NO | TabBar |
 
+## 🖼️ Imágenes del Proyecto
+
+![Imagen1](assets/images/Imagen1.jpg)
+![Imagen2](assets/images/Imagen2.jpg)
+![Imagen3](assets/images/Imagen3.jpg)
+![Imagen4](assets/images/Imagen4.png)
+![Imagen5](assets/images/Imagen5.png)
 
 ## 🔄 Ciclo de Vida de Widgets
 
