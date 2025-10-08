@@ -1,3 +1,76 @@
+# Documentación (README.md)
+
+## Descripción breve de la API usada
+
+Este proyecto consume la API pública de **Chuck Norris** disponible en https://api.chucknorris.io.
+
+### Endpoint principal usado:
+- **GET** `/jokes/search?query={texto}` - Busca chistes que contengan el texto especificado
+
+### Ejemplo de respuesta JSON:
+```json
+{
+  "total": 3,
+  "result": [
+    {
+      "categories": [],
+      "created_at": "2020-01-05 13:42:19.104863",
+      "icon_url": "https://assets.chucknorris.host/img/avatar/chuck-norris.png",
+      "id": "abcd1234efgh5678",
+      "updated_at": "2020-01-05 13:42:19.104863",
+      "url": "https://api.chucknorris.io/jokes/abcd1234efgh5678",
+      "value": "Chuck Norris can divide by zero."
+    }
+  ]
+}
+```
+
+### Configuración:
+- La URL base se configura mediante variables de entorno usando `flutter_dotenv`
+- Archivo `.env` con `BASEURL=https://api.chucknorris.io`
+
+## Arquitectura (carpetas)
+
+La estructura del proyecto sigue el patrón de arquitectura limpia:
+
+- **`models/`**: Clases y modelos de datos
+  - `joke_model.dart` - Modelo para representar un chiste con todos sus campos
+- **`services/`**: Servicios responsables de llamadas HTTP
+  - `joke_service.dart` - Servicio que maneja las peticiones a la API de Chuck Norris
+- **`views/`**: Pantallas y widgets organizados por funcionalidad
+  - `http_API/` - Pantallas relacionadas con la funcionalidad de chistes
+    - `api.dart` - Lista de chistes
+    - `detalle.dart` - Detalle individual de un chiste
+  - `home/`, `login/`, `about/`, etc. - Otras pantallas del proyecto
+- **`routes/`**: Configuración de navegación
+  - `app_router.dart` - Definición de rutas con GoRouter
+- **`widgets/`**: Widgets reutilizables
+  - `base_view.dart`, `custom_drawer.dart`
+
+## Rutas definidas con `go_router` y parámetros
+
+Las rutas están definidas en `lib/routes/app_router.dart` usando el paquete `go_router`:
+
+| Ruta | Parámetros | Descripción |
+|------|-----------|-------------|
+| `/` | Ninguno | Pantalla principal (Home) |
+| `/detalle/:id/:iconUrl/:value` | `id`, `iconUrl`, `value` | **Detalle del chiste** con parámetros codificados en URL |
+| `/aboutme/:parametro/:metodo` | `parametro`, `metodo` | Pantalla 'About' con parámetros dinámicos |
+| `/login` | Ninguno | Pantalla de autenticación |
+| `/tabbar` | Ninguno | Pantalla con pestañas (TabBar) |
+| `/usuarios` | Ninguno | Lista de usuarios (Future/async demo) |
+| `/cronometro` | Ninguno | Cronómetro (Timer demo) |
+| `/tarea_pesada` | Ninguno | Ejemplo de Isolate/tarea en background |
+| `/jokes` | Ninguno | **Lista de chistes** (consulta a la API) |
+
+
+### Funcionalidad de navegación:
+- **Navegación desde lista**: Al hacer tap en un chiste de la lista (`/jokes`), se navega al detalle (`/detalle`) pasando los parámetros del chiste seleccionado
+- **Parámetros codificados**: Los parámetros de URL se codifican/decodifican usando `Uri.encodeComponent()` y `Uri.decodeComponent()` para manejar caracteres especiales
+- **Navegación con contexto**: Se utiliza `context.push()` para mantener el historial de navegación
+
+---
+
 # 📱 Proyecto Flutter - Navegación y Ciclo de Vida
 
 ## 🎯 Descripción del Proyecto
@@ -27,6 +100,13 @@ Este proyecto Flutter demuestra la implementación de navegación con `go_router
 | `context.go()` | Reemplaza completamente la ruta | ❌ NO | ✅ SÍ | Login |
 | `context.replace()` | Reemplaza en el stack actual | ✅ SÍ | ❌ NO | TabBar |
 
+## 🖼️ Imágenes del Proyecto
+
+![Imagen1](assets/images/Imagen1.jpg)
+![Imagen2](assets/images/Imagen2.jpg)
+![Imagen3](assets/images/Imagen3.jpg)
+![Imagen4](assets/images/Imagen4.png)
+![Imagen5](assets/images/Imagen5.png)
 
 ## 🔄 Ciclo de Vida de Widgets
 
