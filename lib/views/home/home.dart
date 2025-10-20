@@ -15,7 +15,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   int _counter = 0;
   bool _indicador = false;
-  String _titulo = 'Hola, Flutter';
+  String _titulo = 'ClaseMoviles V1.0.1';
   late AnimationController
   _animationController; // Controller que necesita ser liberado
   late Animation<double> _rotationAnimation;
@@ -52,9 +52,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   void _setTitulo() {
     setState(() {
       if (_indicador) {
-        _titulo = 'Título Cambiado'; // Cambiar orden
+        _titulo = 'ClaseMoviles 2025-2'; // Cambiar orden
       } else {
-        _titulo = 'Hola, Flutter'; // Cambiar orden
+        _titulo = 'ClaseMoviles'; // Cambiar orden
       }
       if (kDebugMode) {
         print("🟠 setState() -> Estado actualizado -> Título: $_titulo");
