@@ -20,11 +20,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      title: 'ClaseMoviles',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      //home: const Home(title: 'Hola, Flutter'),
+      //home: const Home(title: 'ClaseMoviles'),
       routerConfig: appRouter,
     );
   }

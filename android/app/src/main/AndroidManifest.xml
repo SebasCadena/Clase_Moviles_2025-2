@@ -2,7 +2,7 @@
     <!-- Permiso necesario para acceso a Internet desde la app -->
     <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:label="talleres"
+        android:label="ClaseMoviles"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
