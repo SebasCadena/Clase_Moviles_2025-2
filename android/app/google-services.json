@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "228261720777",
+    "project_id": "clasemoviles-2025-2",
+    "storage_bucket": "clasemoviles-2025-2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:228261720777:android:d1712c34a373a832239318",
+        "android_client_info": {
+          "package_name": "com.example.talleres"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDTyAAImkYgn2Pfg6BvMO1A0uNmXSHPHQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

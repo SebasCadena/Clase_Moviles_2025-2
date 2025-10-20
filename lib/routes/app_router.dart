@@ -13,7 +13,7 @@ final GoRouter appRouter = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const Home(title: 'Hola, Flutter'),
+      builder: (context, state) => const Home(title: 'ClaseMoviles'),
       routes: [
         GoRoute(
           path: 'aboutme/:parametro/:metodo',
