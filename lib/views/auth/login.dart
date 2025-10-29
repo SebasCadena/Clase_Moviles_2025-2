@@ -47,8 +47,8 @@ class _LoginState extends State<Login> {
     if (!mounted) return;
 
     if (result['success'] == true) {
-      //* Login exitoso, navegar a la página principal
-      context.go('/');
+      //* Login exitoso, navegar a la página de datos
+      context.go('/datos');
     } else {
       //* Manejo de errores detallado
       String displayMessage = result['message'] ?? 'Error al iniciar sesión';

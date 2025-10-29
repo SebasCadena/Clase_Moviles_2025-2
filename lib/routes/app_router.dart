@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:talleres/views/SegundoPlano/cronometro.dart';
 import 'package:talleres/views/SegundoPlano/tarea_pesada.dart';
 import 'package:talleres/views/about/aboutme.dart';
+import 'package:talleres/views/auth/datos.dart';
 import 'package:talleres/views/home/home.dart';
 import 'package:talleres/views/http_API/api.dart';
 import 'package:talleres/views/http_API/detalle.dart';
@@ -50,6 +51,10 @@ final GoRouter appRouter = GoRouter(
         final value = Uri.decodeComponent(state.pathParameters['value']!);
         return Detalle(id: id, iconUrl: iconUrl, value: value);
       },
+    ),
+    GoRoute(
+      path: '/datos',
+      builder: (context, state) => const Datos(),
     ),
   ],
 );
