@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:talleres/models/joke_model.dart';
 import 'package:talleres/services/joke_service.dart';
-import 'package:talleres/views/http_API/detalle.dart';
 
 class Jokes extends StatefulWidget {
   const Jokes({super.key});

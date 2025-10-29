@@ -5,7 +5,8 @@ import 'package:talleres/views/about/aboutme.dart';
 import 'package:talleres/views/home/home.dart';
 import 'package:talleres/views/http_API/api.dart';
 import 'package:talleres/views/http_API/detalle.dart';
-import 'package:talleres/views/login/login.dart';
+// import 'package:talleres/views/login/login.dart';
+import 'package:talleres/views/auth/login.dart';
 import 'package:talleres/views/TabBar/bar.dart';
 import 'package:talleres/views/SegundoPlano/usuarios.dart';
 
