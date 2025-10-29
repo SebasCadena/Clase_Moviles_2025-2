@@ -68,7 +68,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   void goToLogin() {
-    context.go('/login');
+    context.push('/login');
   }
 
   void goToTabBar() {

@@ -64,7 +64,7 @@ class _DatosState extends State<Datos> {
             child: const Text('Cancelar'),
           ),
           ElevatedButton(
-            onPressed: () => Navigator.of(context).pop(true),
+            onPressed: () => context.go("/"),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
