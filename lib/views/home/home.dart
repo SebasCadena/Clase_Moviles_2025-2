@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:talleres/widgets/custom_drawer.dart';
 
@@ -19,6 +20,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   late AnimationController
   _animationController; // Controller que necesita ser liberado
   late Animation<double> _rotationAnimation;
+  String? token;
+  final _secureStorage = const FlutterSecureStorage();
 
   void _incrementCounter() {
     setState(() {
@@ -91,9 +94,18 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
+  Future<void> _loadData() async {
+    token = await _secureStorage.read(key: 'token');
+    if (kDebugMode) {
+      print('Token cargado: ${token ?? "No hay token"}');
+    }
+    setState(() {}); // Actualiza la UI después de cargar el token
+  }
+
   @override
   void initState() {
     super.initState();
+    _loadData(); // Llamar sin await
     _titulo = widget.title;
 
     // Inicializar AnimationController para demostrar dispose()
@@ -178,6 +190,21 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
           children: <Widget>[
             Column(
               children: [
+                Text(token != null
+                        ? 'Bienvenido'
+                        : 'No disponible',style: TextStyle(color: Colors.amber, fontSize: 30 ),),
+                SizedBox(height: 10),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    goToLogin();
+                  },
+                  icon: Icon(Icons.person, color: Colors.amber),
+                  label: Text('Login - Taller Autenticación'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.purple,
+                    foregroundColor: Colors.white,
+                  ),
+                ),
                 ElevatedButton.icon(
                   onPressed: () {
                     goToJokes();
@@ -185,7 +212,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   icon: Icon(Icons.accessible, color: Colors.amber),
                   label: Text('Jokes - Taller HTTP'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.purple,
+                    backgroundColor: Colors.deepPurple,
                     foregroundColor: Colors.white,
                   ),
                 ),
@@ -222,17 +249,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                     foregroundColor: Colors.white,
                   ),
                 ),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    goToLogin();
-                  },
-                  icon: Icon(Icons.person, color: Colors.amber),
-                  label: Text('Login - Go'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple,
-                    foregroundColor: Colors.white,
-                  ),
-                ),
+                
               ],
             ),
 

@@ -64,7 +64,7 @@ class _DatosState extends State<Datos> {
             child: const Text('Cancelar'),
           ),
           ElevatedButton(
-            onPressed: () => context.go("/"),
+            onPressed: () => Navigator.of(context).pop(true),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
               foregroundColor: Colors.white,
@@ -76,7 +76,7 @@ class _DatosState extends State<Datos> {
     );
 
     if (confirmed == true && mounted) {
-      // Realizar logout
+      // Realizar logout (eliminar datos)
       await _authService.logout();
 
       // Mostrar mensaje de confirmación
@@ -85,12 +85,15 @@ class _DatosState extends State<Datos> {
           const SnackBar(
             content: Text('Sesión cerrada exitosamente'),
             backgroundColor: Colors.green,
-            behavior: SnackBarBehavior.floating,
+            duration: Duration(seconds: 2),
           ),
         );
 
-        // Navegar al login
-        context.go('/login');
+        // Navegar al login después de un pequeño delay
+        await Future.delayed(const Duration(milliseconds: 500));
+        if (mounted) {
+          context.go('/');
+        }
       }
     }
   }
