@@ -68,7 +68,7 @@ class _LoginState extends State<Login> {
           SnackBar(
             content: Text(displayMessage),
             backgroundColor: Colors.red,
-            behavior: SnackBarBehavior.floating,
+            //behavior: SnackBarBehavior.floating,
             duration: const Duration(seconds: 4),
           ),
         );
