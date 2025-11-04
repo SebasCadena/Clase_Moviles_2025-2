@@ -17,7 +17,9 @@ class _UniversidadFbFormViewState extends State<UniversidadFbFormView> {
   final _formKey = GlobalKey<FormState>();
   final _nitController = TextEditingController();
   final _nombreController = TextEditingController();
-  final _descripcionController = TextEditingController();
+  final _telefonoController = TextEditingController();
+  final _direccionController = TextEditingController();
+  final _paginaWebController = TextEditingController();
   bool _camposInicializados = false;
 
   Future<void> _guardar({String? docId}) async {
@@ -27,9 +29,9 @@ class _UniversidadFbFormViewState extends State<UniversidadFbFormView> {
           id: docId ?? '',
           nit: _nitController.text.trim(),
           nombre: _nombreController.text.trim(),
-          telefono: _descripcionController.text.trim(), 
-          direccion: '', 
-          pagina_web: '',
+          telefono: _telefonoController.text.trim(), 
+          direccion: _direccionController.text.trim(), 
+          pagina_web: _paginaWebController.text.trim(),
         );
 
         if (widget.id == null) {
@@ -72,7 +74,9 @@ class _UniversidadFbFormViewState extends State<UniversidadFbFormView> {
     if (_camposInicializados) return;
     _nitController.text = universidad.nit;
     _nombreController.text = universidad.nombre;
-    _descripcionController.text = universidad.telefono;
+    _telefonoController.text = universidad.telefono;
+    _direccionController.text = universidad.direccion;
+    _paginaWebController.text = universidad.pagina_web;
     _camposInicializados = true;
   }
 
@@ -80,7 +84,9 @@ class _UniversidadFbFormViewState extends State<UniversidadFbFormView> {
   void dispose() {
     _nitController.dispose();
     _nombreController.dispose();
-    _descripcionController.dispose();
+    _telefonoController.dispose();
+    _direccionController.dispose();
+    _paginaWebController.dispose();
     super.dispose();
   }
 
@@ -248,23 +254,61 @@ class _UniversidadFbFormViewState extends State<UniversidadFbFormView> {
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
-                      controller: _descripcionController,
+                      controller: _telefonoController,
                       decoration: InputDecoration(
-                        labelText: 'Descripción',
-                        hintText: 'Ingresa una descripción',
+                        labelText: 'Teléfono',
+                        hintText: 'Ingresa el teléfono',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      keyboardType: TextInputType.phone,
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'El teléfono es requerido';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _direccionController,
+                      decoration: InputDecoration(
+                        labelText: 'Dirección',
+                        hintText: 'Ingresa la dirección',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                         alignLabelWithHint: true,
                       ),
-                      maxLines: 3,
-                      textCapitalization: TextCapitalization.sentences,
+                      maxLines: 2,
+                      textCapitalization: TextCapitalization.words,
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
-                          return 'La descripción es requerida';
+                          return 'La dirección es requerida';
                         }
-                        if (value.trim().length < 10) {
-                          return 'La descripción debe tener al menos 10 caracteres';
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _paginaWebController,
+                      decoration: InputDecoration(
+                        labelText: 'Página Web',
+                        hintText: 'https://ejemplo.com',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        prefixIcon: const Icon(Icons.link),
+                      ),
+                      keyboardType: TextInputType.url,
+                      validator: (value) {
+                        if (value != null && value.trim().isNotEmpty) {
+                          // Validación básica de URL
+                          if (!value.startsWith('http://') && 
+                              !value.startsWith('https://')) {
+                            return 'La URL debe comenzar con http:// o https://';
+                          }
                         }
                         return null;
                       },
