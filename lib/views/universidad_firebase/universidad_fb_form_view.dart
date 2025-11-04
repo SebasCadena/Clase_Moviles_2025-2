@@ -1,37 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../models/categoria_fb.dart';
-import '../../services/categoria_service.dart';
+import '../../models/universidad_fb.dart';
+import '../../services/universidad_service.dart';
 
-class CategoriaFbFormView extends StatefulWidget {
+class UniversidadFbFormView extends StatefulWidget {
   final String? id;
 
-  const CategoriaFbFormView({super.key, this.id});
+  const UniversidadFbFormView({super.key, this.id});
 
   @override
-  State<CategoriaFbFormView> createState() => _CategoriaFbFormViewState();
+  State<UniversidadFbFormView> createState() => _UniversidadFbFormViewState();
 }
 
-class _CategoriaFbFormViewState extends State<CategoriaFbFormView> {
+class _UniversidadFbFormViewState extends State<UniversidadFbFormView> {
   final _formKey = GlobalKey<FormState>();
+  final _nitController = TextEditingController();
   final _nombreController = TextEditingController();
   final _descripcionController = TextEditingController();
   bool _camposInicializados = false;
 
-  Future<void> _guardar({String? id}) async {
+  Future<void> _guardar({String? docId}) async {
     if (_formKey.currentState!.validate()) {
       try {
-        final categoria = CategoriaFb(
-          id: id ?? '',
+        final universidad = UniversidadFb(
+          id: docId ?? '',
+          nit: _nitController.text.trim(),
           nombre: _nombreController.text.trim(),
-          descripcion: _descripcionController.text.trim(),
+          telefono: _descripcionController.text.trim(), 
+          direccion: '', 
+          pagina_web: '',
         );
 
         if (widget.id == null) {
-          await CategoriaService.addCategoria(categoria);
+          await UniversidadService.addUniversidad(universidad);
         } else {
-          await CategoriaService.updateCategoria(categoria);
+          await UniversidadService.updateUniversidad(universidad);
         }
 
         if (mounted) {
@@ -64,15 +68,17 @@ class _CategoriaFbFormViewState extends State<CategoriaFbFormView> {
     }
   }
 
-  void _inicializarCampos(CategoriaFb categoria) {
+  void _inicializarCampos(UniversidadFb universidad) {
     if (_camposInicializados) return;
-    _nombreController.text = categoria.nombre;
-    _descripcionController.text = categoria.descripcion;
+    _nitController.text = universidad.nit;
+    _nombreController.text = universidad.nombre;
+    _descripcionController.text = universidad.telefono;
     _camposInicializados = true;
   }
 
   @override
   void dispose() {
+    _nitController.dispose();
     _nombreController.dispose();
     _descripcionController.dispose();
     super.dispose();
@@ -88,9 +94,9 @@ class _CategoriaFbFormViewState extends State<CategoriaFbFormView> {
         title: Text(esNuevo ? 'Crear Categoría' : 'Editar Categoría'),
       ),
       body: esNuevo
-          ? _buildFormulario(context, id: null)
-          : StreamBuilder<CategoriaFb?>(
-              stream: CategoriaService.watchCategoriaById(widget.id!),
+          ? _buildFormulario(context, docId: null)
+          : StreamBuilder<UniversidadFb?>(
+              stream: UniversidadService.watchUniversidadById(widget.id!),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -159,15 +165,15 @@ class _CategoriaFbFormViewState extends State<CategoriaFbFormView> {
                   );
                 }
 
-                final categoria = snapshot.data!;
-                _inicializarCampos(categoria);
-                return _buildFormulario(context, id: categoria.id);
+                final universidad = snapshot.data!;
+                _inicializarCampos(universidad);
+                return _buildFormulario(context, docId: universidad.id);
               },
             ),
     );
   }
 
-  Widget _buildFormulario(BuildContext context, {required String? id}) {
+  Widget _buildFormulario(BuildContext context, {String? docId}) {
     final colorScheme = Theme.of(context).colorScheme;
 
     return SingleChildScrollView(
@@ -200,6 +206,24 @@ class _CategoriaFbFormViewState extends State<CategoriaFbFormView> {
                         fontWeight: FontWeight.w600,
                         color: colorScheme.primary,
                       ),
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _nitController,
+                      decoration: InputDecoration(
+                        labelText: 'NIT',
+                        hintText: 'Ingresa el NIT de la universidad',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == null || value.trim().isEmpty) {
+                          return 'El NIT es requerido';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 16),
                     TextFormField(
@@ -256,7 +280,7 @@ class _CategoriaFbFormViewState extends State<CategoriaFbFormView> {
                 Expanded(
                   flex: 2,
                   child: FilledButton(
-                    onPressed: () => _guardar(id: id),
+                    onPressed: () => _guardar(docId: docId),
                     style: FilledButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                     ),

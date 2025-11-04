@@ -10,6 +10,8 @@ import 'package:talleres/views/http_API/detalle.dart';
 import 'package:talleres/views/login/login.dart';
 import 'package:talleres/views/TabBar/bar.dart';
 import 'package:talleres/views/SegundoPlano/usuarios.dart';
+import 'package:talleres/views/universidad_firebase/universidad_fb_form_view.dart';
+import 'package:talleres/views/universidad_firebase/universidad_fb_list_view.dart';
 
 final GoRouter appRouter = GoRouter(
   routes: [
@@ -52,6 +54,8 @@ final GoRouter appRouter = GoRouter(
         return Detalle(id: id, iconUrl: iconUrl, value: value);
       },
     ),
+
+    //! CATEGORÍAS
      GoRoute( 
       path: '/categoriasFirebase', 
       name: 'categoriasFirebase', 
@@ -70,5 +74,26 @@ final GoRouter appRouter = GoRouter(
         return CategoriaFbFormView(id: id); 
       }, 
     ), 
+
+    //! UNIVERSIDADES
+    GoRoute( 
+      path: '/universidades', 
+      name: 'universidades', 
+      builder: (_, __) => const UniversidadFbListView(), 
+    ), 
+    GoRoute( 
+      path: '/universidades/create', 
+      name: 'universidades.create', 
+      builder: (context, state) => const UniversidadFbFormView(), 
+    ), 
+    GoRoute( 
+      path: '/universidades/edit/:id', 
+      name: 'universidades.edit', 
+      builder: (context, state) { 
+        final id = state.pathParameters['id']!; 
+        return UniversidadFbFormView(id: id); 
+      }, 
+    ), 
+
   ],
 );

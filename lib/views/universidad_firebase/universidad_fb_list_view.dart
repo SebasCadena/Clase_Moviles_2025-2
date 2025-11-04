@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:talleres/models/universidad_fb.dart';
+import 'package:talleres/services/universidad_service.dart';
 
-import '../../models/categoria_fb.dart';
-import '../../services/categoria_service.dart';
+
 import '../../widgets/custom_drawer.dart';
 
-class CategoriaFbListView extends StatelessWidget {
-  const CategoriaFbListView({super.key});
+class UniversidadFbListView extends StatelessWidget {
+  const UniversidadFbListView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,14 +15,14 @@ class CategoriaFbListView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Categorías Firebase'),
+        title: const Text('Universidades Disponibles'),
         actions: [
           IconButton(
             icon: const Icon(Icons.info_outline),
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
-                  content: Text('Gestiona tus categorías en tiempo real'),
+                  content: Text('Gestiona tus universidades en tiempo real'),
                   duration: Duration(seconds: 2),
                 ),
               );
@@ -30,8 +31,8 @@ class CategoriaFbListView extends StatelessWidget {
         ],
       ),
       drawer: const CustomDrawer(),
-      body: StreamBuilder<List<CategoriaFb>>(
-        stream: CategoriaService.watchCategorias(),
+      body: StreamBuilder<List<UniversidadFb>>(
+        stream: UniversidadService.watchUniversidades(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -45,7 +46,7 @@ class CategoriaFbListView extends StatelessWidget {
                   Icon(Icons.error_outline, size: 60, color: colorScheme.error),
                   const SizedBox(height: 16),
                   Text(
-                    'Error al cargar categorías',
+                    'Error al cargar universidades',
                     style: TextStyle(
                       fontSize: 18,
                       color: colorScheme.error,
@@ -63,9 +64,9 @@ class CategoriaFbListView extends StatelessWidget {
             );
           }
 
-          final categorias = snapshot.data ?? [];
+          final universidades = snapshot.data ?? [];
 
-          if (categorias.isEmpty) {
+          if (universidades.isEmpty) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -77,7 +78,7 @@ class CategoriaFbListView extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'No hay categorías',
+                    'No hay universidades',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -103,17 +104,17 @@ class CategoriaFbListView extends StatelessWidget {
             child: ListView.builder(
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.all(16),
-              itemCount: categorias.length,
+              itemCount: universidades.length,
               itemBuilder: (context, index) {
-                final cat = categorias[index];
-                return _CategoriaCard(categoria: cat, index: index);
+                final uni = universidades[index];
+                return _UniversidadCard(universidad: uni, index: index);
               },
             ),
           );
         },
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => context.push('/categoriasfb/create'),
+        onPressed: () => context.push('/universidades/create'),
         icon: const Icon(Icons.add),
         label: const Text('Nueva'),
       ),
@@ -121,11 +122,11 @@ class CategoriaFbListView extends StatelessWidget {
   }
 }
 
-class _CategoriaCard extends StatelessWidget {
-  final CategoriaFb categoria;
+class _UniversidadCard extends StatelessWidget {
+  final UniversidadFb universidad;
   final int index;
 
-  const _CategoriaCard({required this.categoria, required this.index});
+  const _UniversidadCard({required this.universidad, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +145,7 @@ class _CategoriaCard extends StatelessWidget {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
-        onTap: () => context.push('/categoriasfb/edit/${categoria.id}'),
+        onTap: () => context.push('/universidades/edit/${universidad.id}'),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Row(
@@ -156,7 +157,7 @@ class _CategoriaCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      categoria.nombre,
+                      universidad.nombre,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -165,15 +166,15 @@ class _CategoriaCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      categoria.descripcion.isEmpty
-                          ? 'Sin descripción'
-                          : categoria.descripcion,
+                      universidad.telefono.isEmpty
+                          ? 'Sin teléfono'
+                          : universidad.telefono,
                       style: TextStyle(
                         fontSize: 13,
-                        color: categoria.descripcion.isEmpty
+                        color: universidad.telefono.isEmpty
                             ? colorScheme.onSurfaceVariant.withOpacity(0.5)
                             : colorScheme.onSurfaceVariant,
-                        fontStyle: categoria.descripcion.isEmpty
+                        fontStyle: universidad.telefono.isEmpty
                             ? FontStyle.italic
                             : FontStyle.normal,
                       ),
@@ -212,7 +213,7 @@ class _CategoriaCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('¿Estás seguro de eliminar esta categoría?'),
+            const Text('¿Estás seguro de eliminar esta universidad?'),
             const SizedBox(height: 12),
             Container(
               padding: const EdgeInsets.all(12),
@@ -227,16 +228,16 @@ class _CategoriaCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    categoria.nombre,
+                    universidad.nombre,
                     style: const TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 14,
                     ),
                   ),
-                  if (categoria.descripcion.isNotEmpty) ...[
+                  if (universidad.telefono.isNotEmpty) ...[
                     const SizedBox(height: 4),
                     Text(
-                      categoria.descripcion,
+                      universidad.telefono,
                       style: TextStyle(
                         fontSize: 12,
                         color: colorScheme.onSurfaceVariant,
@@ -272,11 +273,11 @@ class _CategoriaCard extends StatelessWidget {
 
     if (confirmar == true && context.mounted) {
       try {
-        await CategoriaService.deleteCategoria(categoria.id);
+        await UniversidadService.deleteUniversidad(universidad.id);
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Categoría "${categoria.nombre}" eliminada'),
+              content: Text('Universidad "${universidad.nombre}" eliminada'),
               backgroundColor: colorScheme.primary,
               duration: const Duration(seconds: 2),
               action: SnackBarAction(
