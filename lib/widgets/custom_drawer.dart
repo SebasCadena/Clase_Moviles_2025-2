@@ -34,7 +34,7 @@ class CustomDrawer extends StatelessWidget {
             },
           ),
           ListTile(leading: const Icon(Icons.settings), title: const Text('Configuración'), onTap: () {}),
-          ListTile(leading: const Icon(Icons.person), title: const Text('Perfil'), onTap: () {}),
+          ListTile(leading: const Icon(Icons.person), title: const Text('Perfil'), onTap: () {context.go('/datos');}),
           //!PASO DE PARAMETROS
           ListTile(leading: const Icon(Icons.input), title: const Text('Visita la página'), onTap: () => {}),
           ListTile(leading: const Icon(Icons.loop), title: const Text('Sincronización'), onTap: () => {}),
