@@ -38,6 +38,16 @@ class CustomDrawer extends StatelessWidget {
           //!PASO DE PARAMETROS
           ListTile(leading: const Icon(Icons.input), title: const Text('Visita la página'), onTap: () => {}),
           ListTile(leading: const Icon(Icons.loop), title: const Text('Sincronización'), onTap: () => {}),
+           ListTile( 
+            leading: const Icon(Icons.cloud), 
+            title: const Text('Categorías Firebase'), 
+            onTap: () => context.pushNamed('categoriasFirebase'), 
+          ),
+          ListTile( 
+            leading: const Icon(Icons.book), 
+            title: const Text('Universidades'), 
+            onTap: () => context.pushNamed('universidades'), 
+          ),
         ],
       ),
     );
