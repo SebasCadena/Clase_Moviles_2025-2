@@ -114,22 +114,22 @@ class AuthService {
   }
 
   //! logout elimina el token y los datos del usuario
-  Future<void> logout() async {
-    try {
-      //* Eliminar token de flutter_secure_storage
-      await _secureStorage.delete(key: 'token');
-      await _secureStorage.delete(key: 'token_type');
-      await _secureStorage.delete(key: 'expires_in');
+                      Future<void> logout() async {
+                        try {
+                          //* Eliminar token de flutter_secure_storage
+                          await _secureStorage.delete(key: 'token');
+                          await _secureStorage.delete(key: 'token_type');
+                          await _secureStorage.delete(key: 'expires_in');
 
-      //* Eliminar datos del usuario de SharedPreferences
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.remove('user_id');
-      await prefs.remove('user_name');
-      await prefs.remove('user_email');
-    } catch (e) {
-      debugPrint('Logout error: $e');
-    }
-  }
+                          //* Eliminar datos del usuario de SharedPreferences
+                          final prefs = await SharedPreferences.getInstance();
+                          await prefs.remove('user_id');
+                          await prefs.remove('user_name');
+                          await prefs.remove('user_email');
+                        } catch (e) {
+                          debugPrint('Logout error: $e');
+                        }
+                      }
 
   //! isLoggedIn verifica si el usuario tiene un token válido
   Future<bool> isLoggedIn() async {

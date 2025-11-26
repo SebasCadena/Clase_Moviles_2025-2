@@ -43,7 +43,7 @@ class _DatosState extends State<Datos> {
     userEmail = prefs.getString('user_email');
     userId = prefs.getInt('user_id');
 
-    // Cargar datos de FlutterSecureStorage
+    // Cargar datosnom de FlutterSecureStorage
     token = await _secureStorage.read(key: 'token');
     tokenType = await _secureStorage.read(key: 'token_type');
     expiresIn = await _secureStorage.read(key: 'expires_in');
